@@ -23,6 +23,35 @@ async def hello(message: Message):
     await message.reply('Как дела?')
 
 
+@dp.message(F.text.lower().startswith('прив'))
+async def any_greetings(message: Message):
+    await message.reply('Здравствуй-здравствуй!')
+
+
+@dp.message(F.photo)
+async def handle_photo(message: Message):
+    file_id = message.photo[-1].file_id
+    await message.answer_photo(file_id, caption='Вот твоё фото')
+
+
+@dp.message(F.video)
+async def handle_video(message: Message):
+    file_id = message.video.file_id
+    await message.answer_video(file_id, caption='hello')
+
+
+@dp.message(F.voice)
+async def handle_voice(message: Message):
+    file_id = message.voice.file_id
+    await message.answer_voice(file_id, caption="Кто сказал: ... ?")
+
+
+@dp.message(F.sticker)
+async def handle_sticker(message: Message):
+    file_id = message.sticker.file_id
+    await message.answer_sticker(file_id)
+
+
 async def main():
     load_dotenv()
 
