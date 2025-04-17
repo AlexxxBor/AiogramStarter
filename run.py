@@ -8,6 +8,11 @@ from aiogram.filters import CommandStart, Command, CommandObject
 dp = Dispatcher()
 
 
+@dp.message(CommandStart(deep_link=True, magic=F.args.isalpha()))
+async def cmd_start_referal(message: Message, command: CommandObject):
+    await message.answer(f"Привет! Ты пришёл от {command.args}")
+
+
 @dp.message(CommandStart())
 async def cmd_start(message: Message):
     await message.answer("Добро пожаловать!")
