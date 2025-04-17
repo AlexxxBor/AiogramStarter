@@ -3,7 +3,7 @@ import asyncio
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, F
 from aiogram.types import Message
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import CommandStart, Command, CommandObject
 
 dp = Dispatcher()
 
@@ -50,6 +50,23 @@ async def handle_voice(message: Message):
 async def handle_sticker(message: Message):
     file_id = message.sticker.file_id
     await message.answer_sticker(file_id)
+
+
+@dp.message(Command('get'))
+async def cmd_get(message: Message, command: CommandObject):
+    await message.reply(f'Вы ввели команду get с параметром {command.args}')
+
+
+@dp.message(Command('get_few'))
+async def cmd_get_few(message: Message, command: CommandObject):
+    if not command.args:
+        await message.answer('Аргументы не переданы')
+        return
+    try:
+        v1, v2 = command.args.split(' ', maxsplit=1)
+        await message.reply(f'Вы ввели команду get с параметрами {v1} и {v2}')
+    except:
+        await message.answer('Введены неверные аргументы')
 
 
 async def main():
