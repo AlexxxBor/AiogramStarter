@@ -1,4 +1,6 @@
 import asyncio
+import random
+
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import CommandStart, CommandObject, Command
@@ -17,6 +19,15 @@ async def cmd_start(message: Message):
     await message.bot.send_chat_action(chat_id=message.from_user.id, action=ChatAction.TYPING)
     await asyncio.sleep(2.0)
     await message.answer("Добро пожаловать!")
+
+
+@router.message()
+async def sanyouchik_buller(message: Message):
+    bulling = ['Ляя... Сашка 😘', 'Саня! Бу! 😜', '🙃🙂🙃🙂', 'Это Саша! Спасайтесь! 😱']
+
+    if message.from_user.username == 'Strannik_next':
+        await message.bot.send_message(chat_id=message.chat.id,
+                                       text=random.choice(bulling))
 
 
 @router.message(Command('help'))
