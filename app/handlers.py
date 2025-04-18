@@ -1,6 +1,8 @@
+import asyncio
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import CommandStart, CommandObject, Command
+from aiogram.enums import ChatAction
 
 router = Router()
 
@@ -12,6 +14,8 @@ async def cmd_start_referal(message: Message, command: CommandObject):
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
+    await message.bot.send_chat_action(chat_id=message.from_user.id, action=ChatAction.TYPING)
+    await asyncio.sleep(2.0)
     await message.answer("Добро пожаловать!")
 
 
@@ -32,6 +36,9 @@ async def any_greetings(message: Message):
 
 @router.message(F.photo)
 async def handle_photo(message: Message):
+    await message.answer('Секундочку...')
+    await message.bot.send_chat_action(chat_id=message.from_user.id, action=ChatAction.UPLOAD_PHOTO)
+    await asyncio.sleep(2)
     file_id = message.photo[-1].file_id
     await message.answer_photo(file_id, caption='Вот твоё фото')
 
