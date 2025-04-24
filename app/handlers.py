@@ -1,5 +1,6 @@
 import asyncio
 import random
+import app.keyboards as kb
 
 from aiogram import Router, F
 from aiogram.types import Message
@@ -18,7 +19,7 @@ async def cmd_start_referal(message: Message, command: CommandObject):
 async def cmd_start(message: Message):
     await message.bot.send_chat_action(chat_id=message.from_user.id, action=ChatAction.TYPING)
     await asyncio.sleep(2.0)
-    await message.answer("Добро пожаловать!")
+    await message.answer("Добро пожаловать!", reply_markup=kb.main)
 
 
 @router.message()
